@@ -1,103 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>元旦快乐与烟花动画</title>
-    <style>
-        body {
-            background-color: #f1f1f1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
-        .happy-new-year {
-            font-size: 50px;
-            color: #ff4500;
-            text-align: center;
-            font-weight: bold;
-            animation: glow 2s infinite alternate, slide 5s ease-in-out infinite;
-            z-index: 10;
-        }
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #ff4500, 0 0 10px #ff4500, 0 0 15px #ff4500, 0 0 20px #ff4500;
-            }
-            100% {
-                text-shadow: 0 0 20px #ff4500, 0 0 30px #ff4500, 0 0 40px #ff4500, 0 0 50px #ff4500;
-            }
-        }
-        @keyframes slide {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元旦快乐烟花动画</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+  .fireworks {
+    position: absolute;
+    bottom: -100px;
+    width: 100%;
+  }
+  .firework {
+    position: absolute;
+    bottom: 100%;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    /* 随机位置和动画 */
+    left: calc((var(--i) - 1) * (100% / 10));
+    animation: firework var(--d) var(--t) linear infinite;
+  }
+  @keyframes firework {
+    0% {
+      transform: translateY(0);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-500px);
+      opacity: 0;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="happy-new-year">元旦快乐！</div>
-    <canvas id="fireworks"></canvas>
-    <script>
-        const canvas = document.getElementById('fireworks');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        class Firework {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 3 + 2;
-                this.speedX = Math.random() * 4 - 2; 
-                this.speedY = Math.random() * -4 - 4; 
-                this.life = 100; 
-                this.color = 'hsl(' + Math.random() * 360 + ', 100%, 50%)'; 
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.life--;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-            isDead() {
-                return this.life <= 0;
-            }
-        }
-        let fireworks = [];
-        function createFirework(x, y) {
-            for (let i = 0; i < 100; i++) {
-                fireworks.push(new Firework(x, y));
-            }
-        }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < fireworks.length; i++) {
-                const firework = fireworks[i];
-                firework.update();
-                firework.draw();
-                if (firework.isDead()) {
-                    fireworks.splice(i, 1);
-                    i--;
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-        canvas.addEventListener('click', (event) => {
-            createFirework(event.clientX, event.clientY);
-        });
-        animate();
-    </script>
+
+<div class="fireworks">
+  <!-- 生成10个烟花 -->
+  <div class="firework" style="--i:1; --d:200; --t:0.5s;"></div>
+  <div class="firework" style="--i:2; --d:300; --t:0.8s;"></div>
+  <div class="firework" style="--i:3; --d:150; --t:1.2s;"></div>
+  <div class="firework" style="--i:4; --d:250; --t:0.7s;"></div>
+  <div class="firework" style="--i:5; --d:350; --t:1.0s;"></div>
+  <div class="firework" style="--i:6; --d:180; --t:1.5s;"></div>
+  <div class="firework" style="--i:7; --d:220; --t:0.9s;"></div>
+  <div class="firework" style="--i:8; --d:280; --t:1.1s;"></div>
+  <div class="firework" style="--i:9; --d:130; --t:1.3s;"></div>
+  <div class="firework" style="--i:10; --d:310; --t:0.6s;"></div>
+</div>
+
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 24px; font-family: 'Arial', sans-serif;">
+  元旦快乐！
+</div>
+
 </body>
 </html>
+
